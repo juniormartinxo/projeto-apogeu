@@ -36,6 +36,55 @@ class GameFirstDesignTest(unittest.TestCase):
         self.assertNotIn("<svg class=\"ap-svg\"", ui_source)
         self.assertNotIn(">MOLOCK</text>", ui_source)
 
+    def test_game_copy_replaces_streamlit_app_labels(self):
+        app_source = Path("app.py").read_text(encoding="utf-8")
+        ui_source = Path("src/ui_components.py").read_text(encoding="utf-8")
+        combined = app_source + ui_source
+
+        required_tokens = [
+            "ATACAR",
+            "ACIONAR VETOR",
+            "AVANÇAR NA ARENA",
+            "BESTIÁRIO DE ERROS",
+            "CAÇAR NOVAMENTE",
+            "TELEMETRIA DO CADETE",
+            "MAPA DA CAMPANHA",
+            "CARTAS DE AÇÃO",
+            "ATAQUE EFETIVO",
+            "CONTRA-ATAQUE DE MOLOCK",
+            "ENTRAR NA ARENA",
+        ]
+        forbidden_tokens = [
+            "Responder",
+            "Pedir dica",
+            "Avancar para proxima questao",
+            "Caderno de Erros",
+            "Painel de Evolucao",
+            "Mapa operacional",
+            "Alternativas",
+            "Revisar agora",
+        ]
+
+        for token in required_tokens:
+            with self.subTest(required=token):
+                self.assertIn(token, combined)
+        for token in forbidden_tokens:
+            with self.subTest(forbidden=token):
+                self.assertNotIn(token, app_source)
+
+    def test_battle_errors_and_telemetry_avoid_default_streamlit_surfaces(self):
+        app_source = Path("app.py").read_text(encoding="utf-8")
+        ui_source = Path("src/ui_components.py").read_text(encoding="utf-8")
+
+        self.assertNotIn("st.radio", app_source)
+        self.assertNotIn("st.expander", app_source)
+        self.assertNotIn("st.dataframe", app_source)
+        self.assertNotIn("st.bar_chart", app_source)
+
+        for token in ["action-card", "bestiary-card", "telemetry-panel", "boss-panel", "mentor-hologram"]:
+            with self.subTest(token=token):
+                self.assertIn(token, ui_source)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -4,7 +4,6 @@ import html
 import time
 from typing import Any
 
-import pandas as pd
 import streamlit as st
 
 from src import db
@@ -28,18 +27,21 @@ from src.ollama_client import get_boss_taunt, get_mentor_hint
 from src.seed import seed_if_needed
 from src.ui_components import (
     battle_arena_header,
-    boss_line,
-    boss_svg,
     combat_question,
-    enemy_dossier,
-    hp_bar,
     inject_css,
-    mentor_panel,
-    mission_briefing,
-    phase_card,
-    pilot_hud,
+    render_action_cards,
+    render_battle_hud,
+    render_bestiary_card,
+    render_boss_panel,
+    render_campaign_node,
+    render_combat_result,
+    render_command_center,
+    render_game_title,
+    render_mentor_hologram,
+    render_recent_attempts,
+    render_stat_rows,
+    render_tactical_explanation,
     stat_card,
-    tactical_logo,
 )
 
 
@@ -298,16 +300,16 @@ def answer_question(question: dict[str, Any], selected_option: str) -> None:
 def render_top_nav() -> None:
     cols = st.columns([1, 1, 1, 1])
     with cols[0]:
-        if st.button("Comando", key="nav_dashboard", use_container_width=True):
+        if st.button("CENTRAL", key="nav_dashboard", use_container_width=True):
             go("home")
     with cols[1]:
-        if st.button("Mapa", key="nav_campaign", use_container_width=True):
+        if st.button("CAMPANHA", key="nav_campaign", use_container_width=True):
             go("campaign")
     with cols[2]:
-        if st.button("Caderno de Erros", key="nav_errors", use_container_width=True):
+        if st.button("BESTIÁRIO", key="nav_errors", use_container_width=True):
             go("errors")
     with cols[3]:
-        if st.button("Painel de Evolucao", key="nav_evolution", use_container_width=True):
+        if st.button("TELEMETRIA", key="nav_evolution", use_container_width=True):
             go("evolution")
 
 
@@ -317,11 +319,10 @@ def render_home() -> None:
     current_phase = PHASES[player["current_phase"]]
     completed = sum(1 for item in progress.values() if item["completed"])
 
-    tactical_logo()
+    render_game_title()
     render_top_nav()
 
-    pilot_hud(player, completed, current_phase["name"])
-    mission_briefing(current_phase, completed)
+    render_command_center(player, current_phase, completed)
 
     identity_cols = st.columns([0.72, 0.28])
     with identity_cols[0]:
@@ -334,26 +335,26 @@ def render_home() -> None:
 
     actions = st.columns(3)
     with actions[0]:
-        if st.button("Entrar na campanha", key="home_continue_campaign", use_container_width=True):
+        if st.button("CONTINUAR CAMPANHA", key="home_continue_campaign", use_container_width=True):
             go("campaign")
     with actions[1]:
-        if st.button("Caderno de Erros", key="home_errors", use_container_width=True):
+        if st.button("BESTIÁRIO DE ERROS", key="home_errors", use_container_width=True):
             go("errors")
     with actions[2]:
-        if st.button("Painel de Evolucao", key="home_evolution", use_container_width=True):
+        if st.button("TELEMETRIA DO CADETE", key="home_evolution", use_container_width=True):
             go("evolution")
 
 
 def render_campaign() -> None:
-    tactical_logo()
+    render_game_title()
     render_top_nav()
-    st.markdown("### Mapa operacional")
+    st.markdown("### MAPA DA CAMPANHA")
     cards = summarize_phase_status(db.get_phase_progress())
     cols = st.columns(3)
     for col, phase in zip(cols, cards):
         with col:
-            phase_card(phase)
-            label = "Entrar" if not phase["completed"] else "Repetir batalha"
+            render_campaign_node(phase)
+            label = "ENTRAR NA ARENA" if not phase["completed"] else "REENTRAR NA ARENA"
             if st.button(label, key=f"enter_{phase['id']}", disabled=not phase["unlocked"], use_container_width=True):
                 start_battle(phase["id"])
 
@@ -364,18 +365,10 @@ def render_result_panel(question: dict[str, Any]) -> None:
     if not result or result["question_id"] != question["id"]:
         return
 
+    render_combat_result(result)
     if result["is_correct"]:
-        st.success(
-            f"Acerto confirmado. Dano: {result['damage_done']} | XP: {result['xp_gain']} | "
-            f"ELO: {result['elo_before']} -> {result['elo_after']}"
-        )
-        st.markdown("**Explicacao tática liberada:**")
-        st.info(result["explanation"])
+        render_tactical_explanation(result["explanation"])
     else:
-        st.error(
-            f"Resposta incorreta. Dano recebido: {result['damage_taken']} | "
-            f"ELO: {result['elo_before']} -> {result['elo_after']}"
-        )
         if result.get("wrong_feedback"):
             st.warning(result["wrong_feedback"])
         st.caption("A explicacao completa permanece bloqueada enquanto a tentativa estiver ativa.")
@@ -393,22 +386,24 @@ def render_battle() -> None:
     question_locked = bool(result and result["question_id"] == question["id"] and result["is_correct"])
     battle_finished = battle["status"] in {"vencida", "derrotada"}
 
-    tactical_logo()
+    render_game_title()
     render_top_nav()
     battle_arena_header(phase)
 
-    hp_cols = st.columns(2)
-    with hp_cols[0]:
-        hp_bar("HP do jogador", battle["player_hp"], PLAYER_INITIAL_HP, player=True)
-    with hp_cols[1]:
-        hp_bar("HP do inimigo", battle["enemy_hp"], battle["enemy_total_hp"], player=False)
+    player = current_player()
+    render_battle_hud(
+        player=player,
+        phase=phase,
+        player_hp=battle["player_hp"],
+        max_player_hp=PLAYER_INITIAL_HP,
+        enemy_hp=battle["enemy_hp"],
+        max_enemy_hp=battle["enemy_total_hp"],
+    )
 
     left, right = st.columns([1.35, 0.85])
     with right:
-        enemy_dossier(phase)
-        boss_svg()
-        boss_line(battle["boss_text"])
-        mentor_panel(battle["mentor_text"])
+        render_boss_panel(phase, battle["boss_text"])
+        render_mentor_hologram(battle["mentor_text"], int(battle["hint_level"]))
         if battle["history"]:
             st.markdown("#### Log de combate")
             st.markdown("<div class='battle-history'>", unsafe_allow_html=True)
@@ -423,13 +418,13 @@ def render_battle() -> None:
                 st.success("Fase vencida. Protocolo atualizado.")
                 if battle["phase_id"] == "fase_3":
                     st.info("Molock foi derrotado. MVP finalizado.")
-                if st.button("Voltar ao mapa", key="battle_back_to_campaign", use_container_width=True):
+                if st.button("VOLTAR AO MAPA", key="battle_back_to_campaign", use_container_width=True):
                     st.session_state.pop("battle", None)
                     go("campaign")
             else:
                 st.error("Batalha perdida. Revisao obrigatoria ativada.")
-                st.write("Abra o caderno de erros e elimine os inimigos ativos antes de tentar novamente.")
-                if st.button("Abrir caderno de erros", key="battle_open_errors_after_loss", use_container_width=True):
+                st.write("Abra o bestiário e elimine os inimigos ativos antes de tentar novamente.")
+                if st.button("ABRIR BESTIÁRIO", key="battle_open_errors_after_loss", use_container_width=True):
                     st.session_state.pop("battle", None)
                     go("errors")
             render_result_panel(question)
@@ -439,25 +434,25 @@ def render_battle() -> None:
         render_result_panel(question)
 
         if question_locked:
-            if st.button("Avancar para proxima questao", key=f"battle_advance_{question['id']}", use_container_width=True):
+            if st.button("AVANÇAR NA ARENA", key=f"battle_advance_{question['id']}", use_container_width=True):
                 assign_next_question()
                 st.rerun()
             return
 
         options = question["options"]
-        radio_key = f"option_{question['id']}_{battle['question_wrong_attempts']}"
-        selected = st.radio(
-            "Alternativas",
-            list(options.keys()),
-            index=None,
-            key=radio_key,
-            format_func=lambda option: f"{option} - {options[option]}",
+        selection_key = f"selected_card_{question['id']}_{battle['question_wrong_attempts']}"
+        selected = st.session_state.get(selection_key)
+        selected = render_action_cards(
+            options,
+            selected,
+            key_prefix=f"battle_card_{question['id']}_{battle['question_wrong_attempts']}",
         )
+        st.session_state[selection_key] = selected
 
         action_cols = st.columns(2)
         with action_cols[0]:
             if st.button(
-                "Responder",
+                "ATACAR",
                 key=f"battle_answer_{question['id']}_{battle['question_wrong_attempts']}",
                 disabled=selected is None,
                 use_container_width=True,
@@ -465,7 +460,7 @@ def render_battle() -> None:
                 answer_question(question, selected)
         with action_cols[1]:
             if st.button(
-                "Pedir dica",
+                "ACIONAR VETOR",
                 key=f"battle_hint_{question['id']}_{battle['question_wrong_attempts']}",
                 use_container_width=True,
             ):
@@ -473,26 +468,22 @@ def render_battle() -> None:
 
 
 def render_errors() -> None:
-    tactical_logo()
+    render_game_title()
     render_top_nav()
-    st.markdown("### Caderno de Erros")
+    st.markdown("### BESTIÁRIO DE ERROS")
     errors = db.list_active_errors()
     if not errors:
-        st.info("Nenhum erro ativo. O caderno está limpo.")
+        st.info("Nenhum inimigo ativo. O bestiário está limpo.")
         return
 
-    for error in errors:
-        with st.expander(f"{error['enemy_name']} - {error['skill_tag']}"):
-            st.markdown(f"**Tema:** {error['topic']}")
-            st.markdown(f"**Tipo de erro:** {error['error_type']}")
-            st.markdown(f"**Fraqueza:** {error['weakness']}")
-            st.markdown(f"**Proxima revisao:** {error['review_due_at']}")
-            st.markdown(f"**Questao:** {error['stem']}")
-            st.markdown(f"**Resposta marcada:** {error['selected_option']}")
-            st.markdown(f"**Dica recebida:** {error['hint_received']}")
-            if st.button("Revisar agora", key=f"review_{error['id']}"):
-                db.resolve_error(error["id"])
-                st.rerun()
+    for start in range(0, len(errors), 2):
+        cols = st.columns(2)
+        for col, error in zip(cols, errors[start : start + 2]):
+            with col:
+                render_bestiary_card(error)
+                if st.button("CAÇAR NOVAMENTE", key=f"review_{error['id']}", use_container_width=True):
+                    db.resolve_error(error["id"])
+                    st.rerun()
 
 
 def render_evolution() -> None:
@@ -500,13 +491,13 @@ def render_evolution() -> None:
     progress = db.get_phase_progress()
     stats = db.evolution_stats()
 
-    tactical_logo()
+    render_game_title()
     render_top_nav()
-    st.markdown("### Painel de Evolucao")
+    st.markdown("### TELEMETRIA DO CADETE")
 
     cols = st.columns(4)
     with cols[0]:
-        stat_card("XP total", player["xp"], f"Nivel {player['level']}")
+        stat_card("XP total", player["xp"], f"Nível {player['level']}")
     with cols[1]:
         stat_card("ELO", player["chemistry_elo"], "Quimica Quantitativa")
     with cols[2]:
@@ -517,36 +508,12 @@ def render_evolution() -> None:
 
     chart_cols = st.columns(2)
     with chart_cols[0]:
-        st.markdown("#### Acertos por skill_tag")
-        correct_by_skill = stats["correct_by_skill"]
-        if correct_by_skill:
-            frame = pd.DataFrame(
-                [{"skill_tag": key, "acertos": value} for key, value in correct_by_skill.items()]
-            ).set_index("skill_tag")
-            st.bar_chart(frame)
-        else:
-            st.caption("Sem acertos registrados ainda.")
+        render_stat_rows("Acertos por skill_tag", stats["correct_by_skill"])
 
     with chart_cols[1]:
-        st.markdown("#### Erros ativos por tipo")
-        wrong_by_type = stats["wrong_by_type"]
-        if wrong_by_type:
-            frame = pd.DataFrame(
-                [{"tipo": key, "erros": value} for key, value in wrong_by_type.items()]
-            ).set_index("tipo")
-            st.bar_chart(frame)
-        else:
-            st.caption("Sem erros ativos.")
+        render_stat_rows("Erros ativos por tipo", stats["wrong_by_type"], hot=True)
 
-    st.markdown("#### Tentativas recentes")
-    attempts = stats["attempts"][:12]
-    if attempts:
-        table = pd.DataFrame(attempts)[
-            ["question_id", "selected_option", "is_correct", "attempt_number", "hint_level", "xp_gain", "elo_before", "elo_after", "created_at"]
-        ]
-        st.dataframe(table, use_container_width=True, hide_index=True)
-    else:
-        st.caption("Nenhuma tentativa registrada.")
+    render_recent_attempts(stats["attempts"][:12])
 
 
 def main() -> None:
