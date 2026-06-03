@@ -11,6 +11,44 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
+## Como compartilhar com Tailscale Funnel
+
+Depois de instalar as dependências e estar logado no Tailscale, use no Windows:
+
+```powershell
+make share
+```
+
+No Linux:
+
+```bash
+make share-linux
+```
+
+Esse comando sobe o Streamlit com as configurações corretas para proxy público local e abre o Funnel:
+
+```text
+http://localhost:8501 -> https://<seu-host>.ts.net/
+```
+
+Para desligar o túnel público:
+
+```powershell
+make stop-funnel
+```
+
+Se `make` não estiver instalado no Windows, rode o script direto:
+
+```powershell
+pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/share.ps1
+```
+
+Se `make` não estiver instalado no Linux:
+
+```bash
+bash scripts/share.sh
+```
+
 Em Linux/macOS:
 
 ```bash
