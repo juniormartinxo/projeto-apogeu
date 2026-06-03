@@ -1,0 +1,542 @@
+[
+  {
+    "id": "Q001",
+    "phase_id": "fase_1",
+    "topic": "Mol e massa molar",
+    "skill_tag": "massa_para_mol",
+    "difficulty": 1,
+    "stem": "Uma amostra contém 18 g de água pura. Considerando H=1 e O=16, quantos mols de H2O há na amostra?",
+    "options": {
+      "A": "0,5 mol",
+      "B": "1,0 mol",
+      "C": "1,5 mol",
+      "D": "2,0 mol",
+      "E": "18 mol"
+    },
+    "correct_option": "B",
+    "explanation": "A massa molar da água é 18 g/mol. Logo, n = m/M = 18/18 = 1 mol.",
+    "hints": {
+      "1": "Erro de unidade: grama não é mol.",
+      "2": "Identifique a massa molar antes de calcular.",
+      "3": "Use n = m/M.",
+      "4": "Qual é a massa molar de H2O?",
+      "5": "Microetapa: some dois H e um O antes de dividir a massa da amostra."
+    },
+    "wrong_feedback": {
+      "A": "Provável erro na divisão da massa pela massa molar.",
+      "C": "Você parece ter usado massa molar incorreta.",
+      "D": "Você dobrou a quantidade sem justificativa estequiométrica.",
+      "E": "Você confundiu massa em gramas com quantidade em mol."
+    }
+  },
+  {
+    "id": "Q002",
+    "phase_id": "fase_1",
+    "topic": "Mol e massa molar",
+    "skill_tag": "massa_para_mol",
+    "difficulty": 1,
+    "stem": "Um cilindro de laboratório contém 11 g de CO2. Considerando C=12 e O=16, a quantidade de matéria de CO2 é:",
+    "options": {
+      "A": "0,125 mol",
+      "B": "0,25 mol",
+      "C": "0,50 mol",
+      "D": "1,00 mol",
+      "E": "44 mol"
+    },
+    "correct_option": "B",
+    "explanation": "CO2 tem massa molar 12 + 2x16 = 44 g/mol. Assim, n = 11/44 = 0,25 mol.",
+    "hints": {
+      "1": "Erro de unidade: primeiro encontre g/mol.",
+      "2": "A massa molar do CO2 vem de um carbono e dois oxigênios.",
+      "3": "Depois use n = m/M.",
+      "4": "Quantas vezes 44 g/mol cabem em 11 g?",
+      "5": "Microetapa: calcule 11 dividido por 44."
+    },
+    "wrong_feedback": {
+      "A": "Você dividiu por um valor maior que a massa molar correta.",
+      "C": "Você usou uma massa molar menor do que a do CO2.",
+      "D": "Você tratou 11 g como se fosse uma massa molar completa.",
+      "E": "Você confundiu massa molar com quantidade de matéria."
+    }
+  },
+  {
+    "id": "Q003",
+    "phase_id": "fase_1",
+    "topic": "Mol e massa molar",
+    "skill_tag": "massa_para_mol",
+    "difficulty": 2,
+    "stem": "Um cadinho contém 25 g de CaCO3 puro. Usando Ca=40, C=12 e O=16, quantos mols de CaCO3 estão presentes?",
+    "options": {
+      "A": "0,10 mol",
+      "B": "0,20 mol",
+      "C": "0,25 mol",
+      "D": "0,40 mol",
+      "E": "2,50 mol"
+    },
+    "correct_option": "C",
+    "explanation": "A massa molar do CaCO3 é 40 + 12 + 3x16 = 100 g/mol. Então n = 25/100 = 0,25 mol.",
+    "hints": {
+      "1": "Erro provável: massa molar composta.",
+      "2": "Some cálcio, carbono e três oxigênios.",
+      "3": "A ordem é massa molar primeiro, divisão depois.",
+      "4": "Qual valor em g/mol representa uma unidade fórmula de CaCO3?",
+      "5": "Microetapa: 40 + 12 + 48."
+    },
+    "wrong_feedback": {
+      "A": "Você parece ter usado massa molar maior que 100 g/mol.",
+      "B": "A divisão ficou próxima, mas a massa molar foi alterada.",
+      "D": "Você inverteu parte da relação massa/massa molar.",
+      "E": "Você deslocou a vírgula ou confundiu grama com mol."
+    }
+  },
+  {
+    "id": "Q004",
+    "phase_id": "fase_1",
+    "topic": "Mol e massa molar",
+    "skill_tag": "massa_molar_composta",
+    "difficulty": 3,
+    "stem": "Uma cápsula contém 17,1 g de Al2(SO4)3 anidro. Considere Al=27, S=32 e O=16. A quantidade de matéria do sal é:",
+    "options": {
+      "A": "0,025 mol",
+      "B": "0,050 mol",
+      "C": "0,100 mol",
+      "D": "0,171 mol",
+      "E": "0,342 mol"
+    },
+    "correct_option": "B",
+    "explanation": "M(Al2(SO4)3) = 2x27 + 3x32 + 12x16 = 342 g/mol. Logo, n = 17,1/342 = 0,050 mol.",
+    "hints": {
+      "1": "Erro de conceito: parênteses multiplicam todo o grupo.",
+      "2": "Conte 2 Al, 3 S e 12 O.",
+      "3": "Só divida a massa depois de fechar a massa molar.",
+      "4": "Quantos oxigênios existem em três grupos sulfato?",
+      "5": "Microetapa: calcule 2x27 + 3x32 + 12x16."
+    },
+    "wrong_feedback": {
+      "A": "Você dobrou a massa molar ou dividiu a quantidade final por 2.",
+      "C": "Você provavelmente contou oxigênios insuficientes.",
+      "D": "Você usou a massa da amostra como quantidade direta.",
+      "E": "Você usou a massa molar como se fosse mol da amostra."
+    }
+  },
+  {
+    "id": "Q005",
+    "phase_id": "fase_1",
+    "topic": "Mistura e quantidade de matéria",
+    "skill_tag": "mistura_mols",
+    "difficulty": 3,
+    "stem": "Um frasco contém simultaneamente 9 g de H2O e 22 g de CO2. Considerando H=1, C=12 e O=16, o total de mols das duas substâncias é:",
+    "options": {
+      "A": "0,50 mol",
+      "B": "0,75 mol",
+      "C": "1,00 mol",
+      "D": "1,50 mol",
+      "E": "31 mol"
+    },
+    "correct_option": "C",
+    "explanation": "H2O: 9/18 = 0,50 mol. CO2: 22/44 = 0,50 mol. Total = 1,00 mol.",
+    "hints": {
+      "1": "Erro de unidade: não some massas para achar mol diretamente.",
+      "2": "Cada substância tem sua própria massa molar.",
+      "3": "Converta H2O e CO2 separadamente.",
+      "4": "Quantos mols há em 9 g de H2O antes de olhar o CO2?",
+      "5": "Microetapa: faça duas divisões, depois some os mols."
+    },
+    "wrong_feedback": {
+      "A": "Você provavelmente calculou só uma das substâncias.",
+      "B": "Uma das conversões foi feita com massa molar incorreta.",
+      "D": "Você somou um valor extra sem base estequiométrica.",
+      "E": "Você somou massas e tratou o resultado como mol."
+    }
+  },
+  {
+    "id": "Q006",
+    "phase_id": "fase_1",
+    "topic": "Mol para massa",
+    "skill_tag": "mol_para_massa",
+    "difficulty": 2,
+    "stem": "Um operador precisa separar 0,40 mol de Na2CO3. Considere Na=23, C=12 e O=16. Qual massa de carbonato de sódio deve ser medida?",
+    "options": {
+      "A": "10,6 g",
+      "B": "21,2 g",
+      "C": "42,4 g",
+      "D": "53,0 g",
+      "E": "106 g"
+    },
+    "correct_option": "C",
+    "explanation": "M(Na2CO3) = 2x23 + 12 + 3x16 = 106 g/mol. Massa = 0,40x106 = 42,4 g.",
+    "hints": {
+      "1": "Erro de fórmula: agora você parte de mol para massa.",
+      "2": "Use m = n x M.",
+      "3": "A massa molar do Na2CO3 é 106 g/mol.",
+      "4": "Quanto vale 40% de 106 g?",
+      "5": "Microetapa: multiplique 0,40 por 106."
+    },
+    "wrong_feedback": {
+      "A": "Você usou 0,10 mol ou dividiu por 4 indevidamente.",
+      "B": "Você calculou metade da massa necessária.",
+      "D": "Você usou massa molar incorreta para Na2CO3.",
+      "E": "Você esqueceu de multiplicar pela quantidade de mols."
+    }
+  },
+  {
+    "id": "Q007",
+    "phase_id": "fase_2",
+    "topic": "Reagente limitante",
+    "skill_tag": "reagente_limitante",
+    "difficulty": 2,
+    "stem": "Na síntese N2 + 3 H2 -> 2 NH3, um reator recebe 2,0 mol de N2 e 3,0 mol de H2. Admitindo reação completa, qual reagente limita e quantos mols de NH3 podem ser formados?",
+    "options": {
+      "A": "N2 limita; 2,0 mol de NH3",
+      "B": "N2 limita; 4,0 mol de NH3",
+      "C": "H2 limita; 2,0 mol de NH3",
+      "D": "H2 limita; 3,0 mol de NH3",
+      "E": "Não há limitante; 5,0 mol de NH3"
+    },
+    "correct_option": "C",
+    "explanation": "Para 2,0 mol de N2 seriam necessários 6,0 mol de H2. Há apenas 3,0 mol de H2, portanto H2 limita. Pela proporção 3 H2 -> 2 NH3, formam-se 2,0 mol de NH3.",
+    "hints": {
+      "1": "Erro de proporção: coeficiente conversa com mol.",
+      "2": "Compare a quantidade disponível com a exigida pela equação.",
+      "3": "Use a razão 3 mol de H2 para 2 mol de NH3.",
+      "4": "Com 3 mol de H2, quantos mols de NH3 a proporção permite?",
+      "5": "Microetapa: ignore massa; divida H2 disponível pelo coeficiente 3."
+    },
+    "wrong_feedback": {
+      "A": "Você escolheu o reagente com menor coeficiente sem testar a proporção.",
+      "B": "Você usou todo o N2 apesar da falta de H2.",
+      "D": "Você confundiu mol de H2 consumido com mol de NH3 formado.",
+      "E": "Você somou reagentes em vez de encontrar quem acaba primeiro."
+    }
+  },
+  {
+    "id": "Q008",
+    "phase_id": "fase_2",
+    "topic": "Reagente limitante com massa",
+    "skill_tag": "reagente_limitante",
+    "difficulty": 3,
+    "stem": "Na reação 2 Al + 3 Cl2 -> 2 AlCl3, misturam-se 5,4 g de Al e 14,2 g de Cl2. Considere Al=27 e Cl=35,5. O reagente limitante e a quantidade de AlCl3 formada são:",
+    "options": {
+      "A": "Al limita; 0,20 mol de AlCl3",
+      "B": "Al limita; 0,13 mol de AlCl3",
+      "C": "Cl2 limita; 0,13 mol de AlCl3",
+      "D": "Cl2 limita; 0,20 mol de AlCl3",
+      "E": "Não há limitante; 0,40 mol de AlCl3"
+    },
+    "correct_option": "C",
+    "explanation": "Al: 5,4/27 = 0,20 mol. Cl2: 14,2/71 = 0,20 mol. Pela equação, 3 mol de Cl2 geram 2 mol de AlCl3; 0,20 mol de Cl2 geram 0,20x2/3 = 0,13 mol. Cl2 limita.",
+    "hints": {
+      "1": "Erro de unidade: converta as duas massas para mol.",
+      "2": "Não compare 5,4 g com 14,2 g.",
+      "3": "Depois de achar mol, divida pelo coeficiente estequiométrico.",
+      "4": "Qual razão mol/coficiente é menor?",
+      "5": "Microetapa: calcule mol de Al e mol de Cl2 separadamente."
+    },
+    "wrong_feedback": {
+      "A": "Você comparou mols sem dividir pelos coeficientes.",
+      "B": "Você identificou o produto possível, mas escolheu o limitante errado.",
+      "D": "Você tratou mol de Cl2 como mol de AlCl3.",
+      "E": "Você somou quantidades incompatíveis."
+    }
+  },
+  {
+    "id": "Q009",
+    "phase_id": "fase_2",
+    "topic": "Rendimento",
+    "skill_tag": "rendimento",
+    "difficulty": 2,
+    "stem": "A decomposição CaCO3 -> CaO + CO2 é conduzida com 50 g de CaCO3 puro. Com CaCO3=100 g/mol e CO2=44 g/mol, qual massa de CO2 é obtida se o rendimento é 80%?",
+    "options": {
+      "A": "8,8 g",
+      "B": "17,6 g",
+      "C": "22,0 g",
+      "D": "35,2 g",
+      "E": "44,0 g"
+    },
+    "correct_option": "B",
+    "explanation": "50 g de CaCO3 correspondem a 0,50 mol. A proporção é 1:1, então o CO2 teórico é 0,50 mol = 22 g. Com 80% de rendimento: 22x0,80 = 17,6 g.",
+    "hints": {
+      "1": "Erro de fórmula: rendimento vem depois do valor teórico.",
+      "2": "Primeiro ache o CO2 que seria produzido com 100%.",
+      "3": "A proporção CaCO3:CO2 é 1:1.",
+      "4": "Qual massa de CO2 corresponde a 0,50 mol?",
+      "5": "Microetapa: calcule 80% de 22 g."
+    },
+    "wrong_feedback": {
+      "A": "Você aplicou 80% sobre uma etapa intermediária errada.",
+      "C": "Você calculou o rendimento teórico, mas esqueceu o percentual.",
+      "D": "Você aumentou o produto em vez de reduzir pelo rendimento.",
+      "E": "Você usou 1 mol de CO2 sem considerar a quantidade de CaCO3."
+    }
+  },
+  {
+    "id": "Q010",
+    "phase_id": "fase_2",
+    "topic": "Combustão e limitante",
+    "skill_tag": "reagente_limitante",
+    "difficulty": 2,
+    "stem": "Na combustão CH4 + 2 O2 -> CO2 + 2 H2O, misturam-se 8 g de CH4 e 48 g de O2. Considere CH4=16 g/mol e O2=32 g/mol. Qual reagente limita e quantos mols de CO2 se formam?",
+    "options": {
+      "A": "CH4 limita; 0,50 mol de CO2",
+      "B": "CH4 limita; 1,00 mol de CO2",
+      "C": "O2 limita; 0,50 mol de CO2",
+      "D": "O2 limita; 0,75 mol de CO2",
+      "E": "Não há limitante; 1,50 mol de CO2"
+    },
+    "correct_option": "A",
+    "explanation": "CH4: 8/16 = 0,50 mol. O2: 48/32 = 1,50 mol. Para 0,50 mol de CH4, precisa-se de 1,00 mol de O2; há excesso de O2. CH4 limita e forma 0,50 mol de CO2.",
+    "hints": {
+      "1": "Erro de proporção: excesso não vira produto sem reagente par.",
+      "2": "Converta as massas para mol antes de decidir.",
+      "3": "Teste quanto O2 seria necessário para consumir todo CH4.",
+      "4": "A proporção CH4:CO2 é 1:1.",
+      "5": "Microetapa: calcule 8/16 e 48/32."
+    },
+    "wrong_feedback": {
+      "B": "Você ignorou que há apenas 0,50 mol de CH4.",
+      "C": "Você escolheu O2 por olhar coeficiente, não disponibilidade.",
+      "D": "Você dividiu O2 por 2, mas não testou CH4.",
+      "E": "Você somou mols de reagentes como se virassem CO2."
+    }
+  },
+  {
+    "id": "Q011",
+    "phase_id": "fase_2",
+    "topic": "Estequiometria de redução",
+    "skill_tag": "proporcao_estequiometrica",
+    "difficulty": 3,
+    "stem": "Na reação Fe2O3 + 3 CO -> 2 Fe + 3 CO2, reagem 16 g de Fe2O3 com 8,4 g de CO. Considere Fe2O3=160 g/mol, CO=28 g/mol e Fe=56 g/mol. A massa de Fe formada é:",
+    "options": {
+      "A": "5,6 g",
+      "B": "8,4 g",
+      "C": "11,2 g",
+      "D": "16,8 g",
+      "E": "22,4 g"
+    },
+    "correct_option": "C",
+    "explanation": "Fe2O3: 16/160 = 0,10 mol. CO: 8,4/28 = 0,30 mol. A proporção 1:3 está exata. Pela equação, 0,10 mol de Fe2O3 formam 0,20 mol de Fe, ou 0,20x56 = 11,2 g.",
+    "hints": {
+      "1": "Erro de proporção: cheque se a mistura está estequiométrica.",
+      "2": "Converta os dois reagentes para mol.",
+      "3": "A razão Fe2O3:CO deve ser 1:3.",
+      "4": "Se 1 mol de Fe2O3 forma 2 mol de Fe, o que 0,10 mol forma?",
+      "5": "Microetapa: transforme 0,20 mol de Fe em gramas."
+    },
+    "wrong_feedback": {
+      "A": "Você esqueceu o coeficiente 2 do ferro.",
+      "B": "Você confundiu massa de CO com massa de Fe.",
+      "D": "Você aplicou proporção sem verificar os mols corretos.",
+      "E": "Você dobrou a massa final sem base na equação."
+    }
+  },
+  {
+    "id": "Q012",
+    "phase_id": "fase_2",
+    "topic": "Decomposição e rendimento",
+    "skill_tag": "rendimento",
+    "difficulty": 3,
+    "stem": "Na decomposição 2 KClO3 -> 2 KCl + 3 O2, aquecem-se 24,5 g de KClO3. Considere KClO3=122,5 g/mol. Se o rendimento é 90%, quantos mols de O2 são obtidos?",
+    "options": {
+      "A": "0,18 mol",
+      "B": "0,20 mol",
+      "C": "0,27 mol",
+      "D": "0,30 mol",
+      "E": "0,45 mol"
+    },
+    "correct_option": "C",
+    "explanation": "24,5 g de KClO3 correspondem a 0,20 mol. Pela proporção 2 KClO3 -> 3 O2, o O2 teórico é 0,20x3/2 = 0,30 mol. Com 90%: 0,27 mol.",
+    "hints": {
+      "1": "Erro de fórmula: rendimento é aplicado no final.",
+      "2": "Primeiro encontre mol de KClO3.",
+      "3": "Use a razão 3/2 para passar de KClO3 para O2.",
+      "4": "Qual é o O2 teórico antes dos 90%?",
+      "5": "Microetapa: calcule 0,30 x 0,90."
+    },
+    "wrong_feedback": {
+      "A": "Você aplicou o rendimento antes da proporção ou inverteu a razão.",
+      "B": "Você parou no mol de KClO3.",
+      "D": "Você calculou o valor teórico, mas ignorou rendimento.",
+      "E": "Você usou 3/2 sem partir dos mols corretos."
+    }
+  },
+  {
+    "id": "Q013",
+    "phase_id": "fase_3",
+    "topic": "Boss: combustão com limitante",
+    "skill_tag": "reagente_limitante",
+    "difficulty": 4,
+    "stem": "No núcleo de Molock, ocorre C3H8 + 5 O2 -> 3 CO2 + 4 H2O. São injetados 11 g de C3H8 e 32 g de O2. Considere C3H8=44 g/mol e O2=32 g/mol. Quantos mols de CO2 podem ser formados?",
+    "options": {
+      "A": "0,25 mol",
+      "B": "0,50 mol",
+      "C": "0,60 mol",
+      "D": "0,75 mol",
+      "E": "1,00 mol"
+    },
+    "correct_option": "C",
+    "explanation": "C3H8: 11/44 = 0,25 mol. O2: 32/32 = 1,00 mol. Para consumir 0,25 mol de C3H8 seriam necessários 1,25 mol de O2; falta O2. Pela razão 5 O2 -> 3 CO2, 1,00 mol de O2 forma 0,60 mol de CO2.",
+    "hints": {
+      "1": "Erro de proporção: encontre o limitante antes do produto.",
+      "2": "Converta ambos os reagentes para mol.",
+      "3": "Teste se o O2 disponível consome todo o propano.",
+      "4": "Com O2 limitante, use a razão 3/5 para CO2.",
+      "5": "Microetapa: calcule 1,00 x 3/5."
+    },
+    "wrong_feedback": {
+      "A": "Você parou no mol de propano.",
+      "B": "Você usou uma razão incompleta entre O2 e CO2.",
+      "D": "Você tratou propano como limitante sem testar O2.",
+      "E": "Você confundiu mol de O2 disponível com mol de CO2."
+    }
+  },
+  {
+    "id": "Q014",
+    "phase_id": "fase_3",
+    "topic": "Boss: mistura estequiométrica",
+    "skill_tag": "proporcao_estequiometrica",
+    "difficulty": 3,
+    "stem": "Na cela de síntese, 2 Na + Cl2 -> 2 NaCl. Misturam-se 4,6 g de Na e 7,1 g de Cl2. Considere Na=23, Cl2=71 e NaCl=58,5 g/mol. A massa de NaCl formada é:",
+    "options": {
+      "A": "5,85 g",
+      "B": "7,10 g",
+      "C": "11,7 g",
+      "D": "23,4 g",
+      "E": "58,5 g"
+    },
+    "correct_option": "C",
+    "explanation": "Na: 4,6/23 = 0,20 mol. Cl2: 7,1/71 = 0,10 mol. A proporção 2:1 está exata. Formam-se 0,20 mol de NaCl, o que corresponde a 0,20x58,5 = 11,7 g.",
+    "hints": {
+      "1": "Erro de unidade: passe massas para mol.",
+      "2": "Veja se 0,20 mol de Na combina com 0,10 mol de Cl2.",
+      "3": "A proporção 2:1 gera 2 mol de NaCl.",
+      "4": "Quantos mols de NaCl surgem quando 0,10 mol de Cl2 reage?",
+      "5": "Microetapa: multiplique 0,20 por 58,5."
+    },
+    "wrong_feedback": {
+      "A": "Você calculou metade do NaCl possível.",
+      "B": "Você confundiu massa de Cl2 com massa de produto.",
+      "D": "Você dobrou a quantidade de NaCl sem base.",
+      "E": "Você usou uma massa molar como massa formada."
+    }
+  },
+  {
+    "id": "Q015",
+    "phase_id": "fase_3",
+    "topic": "Boss: rendimento em combustão",
+    "skill_tag": "rendimento",
+    "difficulty": 4,
+    "stem": "Em uma linha de queima, C + O2 -> CO2. Há 12 g de C e 48 g de O2. Considere C=12, O2=32 e CO2=44 g/mol. Se o rendimento real é 75%, qual massa de CO2 é obtida?",
+    "options": {
+      "A": "24 g",
+      "B": "33 g",
+      "C": "44 g",
+      "D": "49,5 g",
+      "E": "66 g"
+    },
+    "correct_option": "B",
+    "explanation": "C: 12/12 = 1 mol. O2: 48/32 = 1,5 mol. Carbono limita e formaria 1 mol de CO2, isto é, 44 g. Com 75% de rendimento, massa real = 44x0,75 = 33 g.",
+    "hints": {
+      "1": "Erro de ordem: limitante antes de rendimento.",
+      "2": "Converta C e O2 para mol e veja quem limita.",
+      "3": "O valor de 75% só entra depois do CO2 teórico.",
+      "4": "Qual massa teórica de CO2 vem de 1 mol de C?",
+      "5": "Microetapa: calcule 75% de 44 g."
+    },
+    "wrong_feedback": {
+      "A": "Você aplicou rendimento sobre massa de O2 ou etapa incorreta.",
+      "C": "Você esqueceu o rendimento real.",
+      "D": "Você usou O2 em excesso para aumentar produto.",
+      "E": "Você tratou O2 em excesso como se virasse CO2 sozinho."
+    }
+  },
+  {
+    "id": "Q016",
+    "phase_id": "fase_3",
+    "topic": "Boss: água formada",
+    "skill_tag": "reagente_limitante",
+    "difficulty": 3,
+    "stem": "No módulo criogênico, 2 H2 + O2 -> 2 H2O. Misturam-se 5,0 g de H2 e 32 g de O2. Considere H2=2 g/mol, O2=32 g/mol e H2O=18 g/mol. Qual massa de água se forma?",
+    "options": {
+      "A": "18 g",
+      "B": "36 g",
+      "C": "45 g",
+      "D": "54 g",
+      "E": "90 g"
+    },
+    "correct_option": "B",
+    "explanation": "H2: 5,0/2 = 2,5 mol. O2: 32/32 = 1,0 mol. Para 1,0 mol de O2, consomem-se 2,0 mol de H2 e formam-se 2,0 mol de H2O. Massa = 2,0x18 = 36 g.",
+    "hints": {
+      "1": "Erro de proporção: não use todo H2 se falta O2.",
+      "2": "Compare mol/coficiente para achar o limitante.",
+      "3": "O2 limitante usa a razão 1 O2 -> 2 H2O.",
+      "4": "Com 1 mol de O2, quantos mols de água aparecem?",
+      "5": "Microetapa: transforme 2 mol de H2O em massa."
+    },
+    "wrong_feedback": {
+      "A": "Você formou apenas 1 mol de água, esquecendo o coeficiente 2.",
+      "C": "Você usou todo o H2 como se O2 fosse suficiente.",
+      "D": "Você aplicou massa molar com mols incorretos.",
+      "E": "Você somou massas de reagentes como massa de produto."
+    }
+  },
+  {
+    "id": "Q017",
+    "phase_id": "fase_3",
+    "topic": "Boss: redução com limitante",
+    "skill_tag": "reagente_limitante",
+    "difficulty": 4,
+    "stem": "Na redução CuO + H2 -> Cu + H2O, são usados 24 g de CuO e 0,20 mol de H2. Considere CuO=80 g/mol e Cu=64 g/mol. Qual massa de cobre metálico pode ser formada?",
+    "options": {
+      "A": "6,4 g",
+      "B": "12,8 g",
+      "C": "16,0 g",
+      "D": "19,2 g",
+      "E": "24,0 g"
+    },
+    "correct_option": "B",
+    "explanation": "CuO: 24/80 = 0,30 mol. A reação é 1:1 com H2. Como há 0,20 mol de H2, H2 limita. Formam-se 0,20 mol de Cu, massa = 0,20x64 = 12,8 g.",
+    "hints": {
+      "1": "Erro de unidade: uma quantidade já está em mol, a outra não.",
+      "2": "Converta apenas CuO para mol e compare com H2.",
+      "3": "A proporção CuO:H2:Cu é 1:1:1.",
+      "4": "Qual reagente tem menos mol disponível na proporção 1:1?",
+      "5": "Microetapa: multiplique o mol limitante por 64."
+    },
+    "wrong_feedback": {
+      "A": "Você usou 0,10 mol de Cu sem justificativa.",
+      "C": "Você usou mol de CuO parcialmente, ignorando H2.",
+      "D": "Você considerou todo CuO disponível, mas H2 limita.",
+      "E": "Você tratou massa de CuO como massa de Cu."
+    }
+  },
+  {
+    "id": "Q018",
+    "phase_id": "fase_3",
+    "topic": "Boss: síntese com rendimento",
+    "skill_tag": "rendimento",
+    "difficulty": 5,
+    "stem": "No ataque final, N2 + 3 H2 -> 2 NH3. São carregados 28 g de N2 e 9 g de H2. Considere N2=28 g/mol, H2=2 g/mol e NH3=17 g/mol. Se o rendimento é 60%, qual massa de NH3 é obtida?",
+    "options": {
+      "A": "10,2 g",
+      "B": "17,0 g",
+      "C": "20,4 g",
+      "D": "34,0 g",
+      "E": "51,0 g"
+    },
+    "correct_option": "C",
+    "explanation": "N2: 28/28 = 1,0 mol. H2: 9/2 = 4,5 mol. Para 1,0 mol de N2 bastam 3,0 mol de H2, então N2 limita. Teoricamente formam-se 2,0 mol de NH3 = 34 g. Com 60% de rendimento: 20,4 g.",
+    "hints": {
+      "1": "Erro de ordem: mol, limitante, produto teórico, rendimento.",
+      "2": "Não aplique 60% antes de saber o NH3 teórico.",
+      "3": "Teste se o H2 disponível consome todo N2.",
+      "4": "Se N2 limita, a razão N2:NH3 é 1:2.",
+      "5": "Microetapa: ache a massa teórica de NH3 e aplique 60%."
+    },
+    "wrong_feedback": {
+      "A": "Você aplicou rendimento sobre mol ou massa parcial incorreta.",
+      "B": "Você usou apenas 1 mol de NH3.",
+      "D": "Você calculou o valor teórico, mas esqueceu o rendimento.",
+      "E": "Você usou H2 em excesso como se gerasse produto adicional."
+    }
+  }
+]
