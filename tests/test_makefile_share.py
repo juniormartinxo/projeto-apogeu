@@ -32,12 +32,17 @@ class MakeShareCommandTest(unittest.TestCase):
             "8501",
             "--server.enableCORS",
             "--server.enableXsrfProtection",
-            "false",
-            "tailscale funnel --bg localhost:8501",
+            '"true"',
+            "Port $Port is already in use",
+            'tailscale funnel --bg "localhost:$Port"',
         ]
         for text in required:
             with self.subTest(text=text):
                 self.assertIn(text, content)
+        self.assertNotIn('"--server.enableCORS", "false"', content)
+        self.assertNotIn('"--server.enableXsrfProtection", "false"', content)
+        self.assertNotIn("tailscale funnel --bg localhost:8501", content)
+        self.assertNotIn("Reusing the existing local server", content)
 
     def test_linux_share_script_starts_streamlit_and_tailscale_funnel(self):
         script = Path("scripts/share.sh")
@@ -53,14 +58,18 @@ class MakeShareCommandTest(unittest.TestCase):
             "127.0.0.1",
             "--server.port",
             "8501",
-            "--server.enableCORS false",
-            "--server.enableXsrfProtection false",
+            "--server.enableCORS true",
+            "--server.enableXsrfProtection true",
+            "Port ${PORT} is already in use",
             "tailscale funnel --bg",
             "localhost:${PORT}",
         ]
         for text in required:
             with self.subTest(text=text):
                 self.assertIn(text, content)
+        self.assertNotIn("--server.enableCORS false", content)
+        self.assertNotIn("--server.enableXsrfProtection false", content)
+        self.assertNotIn("Reusing the existing local server", content)
 
 
 if __name__ == "__main__":

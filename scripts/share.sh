@@ -32,18 +32,32 @@ except Exception:
 PY
 }
 
-if http_ready "http://localhost:${PORT}"; then
-  echo "Port ${PORT} is already serving HTTP. Reusing the existing local server."
-else
-  echo "Starting Protocolo Apogeu on http://localhost:${PORT} ..."
-  nohup "${PYTHON}" -m streamlit run app.py \
-    --server.address "${HOST_ADDRESS}" \
-    --server.port "${PORT}" \
-    --server.enableCORS false \
-    --server.enableXsrfProtection false \
-    --browser.gatherUsageStats false \
-    >/tmp/protocolo-apogeu-streamlit-"${PORT}".log 2>&1 &
+port_open() {
+  "${PYTHON}" - "$1" "$2" <<'PY'
+import socket
+import sys
+
+host = sys.argv[1]
+port = int(sys.argv[2])
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    sock.settimeout(0.5)
+    raise SystemExit(0 if sock.connect_ex((host, port)) == 0 else 1)
+PY
+}
+
+if port_open "127.0.0.1" "${PORT}"; then
+  echo "Port ${PORT} is already in use. Stop that process or set PORT to a free port before opening Funnel." >&2
+  exit 1
 fi
+
+echo "Starting Protocolo Apogeu on http://localhost:${PORT} ..."
+nohup "${PYTHON}" -m streamlit run app.py \
+  --server.address "${HOST_ADDRESS}" \
+  --server.port "${PORT}" \
+  --server.enableCORS true \
+  --server.enableXsrfProtection true \
+  --browser.gatherUsageStats false \
+  >/tmp/protocolo-apogeu-streamlit-"${PORT}".log 2>&1 &
 
 ready=0
 for _ in $(seq 1 30); do

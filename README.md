@@ -31,6 +31,8 @@ Esse comando sobe o Streamlit com as configurações corretas para proxy públic
 http://localhost:8501 -> https://<seu-host>.ts.net/
 ```
 
+O Funnel cria uma URL pública. Compartilhe apenas com pessoas que podem acessar e alterar o progresso salvo no jogo local. Por segurança, os scripts mantêm CORS/XSRF ligados e abortam se a porta escolhida já estiver ocupada, evitando publicar outro serviço local por engano.
+
 Para desligar o túnel público:
 
 ```powershell

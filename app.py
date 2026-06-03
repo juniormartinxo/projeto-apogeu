@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import html
 import time
 from typing import Any
 
@@ -412,7 +413,8 @@ def render_battle() -> None:
             st.markdown("#### Log de combate")
             st.markdown("<div class='battle-history'>", unsafe_allow_html=True)
             for item in battle["history"]:
-                st.markdown(f"<div class='history-line'>{item}</div>", unsafe_allow_html=True)
+                safe_item = html.escape(str(item))
+                st.markdown(f"<div class='history-line'>{safe_item}</div>", unsafe_allow_html=True)
             st.markdown("</div>", unsafe_allow_html=True)
 
     with left:
