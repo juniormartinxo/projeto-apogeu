@@ -66,6 +66,41 @@ def current_player() -> dict[str, Any]:
     return db.get_or_create_player()
 
 
+SKILL_LABELS = {
+    "massa_para_mol": "conversão de massa para mol",
+    "mol_para_massa": "conversão de mol para massa",
+    "massa_molar": "massa molar",
+    "formula_molecular": "fórmula molecular",
+    "estequiometria": "proporção estequiométrica",
+    "proporcao_estequiometrica": "proporção estequiométrica",
+    "reagente_limitante": "reagente limitante",
+    "rendimento": "rendimento",
+    "rendimento_percentual": "rendimento percentual",
+    "mistura_mols": "mistura de mols",
+}
+
+
+def skill_label(skill_tag: str | None) -> str:
+    if not skill_tag:
+        return "raciocínio químico"
+    return SKILL_LABELS.get(skill_tag, skill_tag.replace("_", " "))
+
+
+def format_hint_log(question: dict[str, Any], hint_level: int) -> str:
+    return f"Vetor entrou no canal: foco em {skill_label(question.get('skill_tag'))}."
+
+
+def format_accuracy_log(question: dict[str, Any], damage_done: int, xp_gain: int) -> str:
+    return f"Ataque confirmado em {question['id']}: {damage_done} de dano aplicado, {xp_gain} XP recuperados."
+
+
+def format_error_log(question: dict[str, Any], damage_taken: int) -> str:
+    return (
+        f"Molock contra-atacou em {question['id']}: {damage_taken} de dano recebido. "
+        f"Falha provável em {skill_label(question.get('skill_tag'))}."
+    )
+
+
 def start_battle(phase_id: str) -> None:
     phase = PHASES[phase_id]
     battle_id = db.start_battle_record(phase_id, PLAYER_INITIAL_HP, phase["enemy_hp"])
@@ -137,7 +172,7 @@ def request_hint(question: dict[str, Any], selected_option: str | None) -> None:
         skill_error_count=db.get_skill_error_count(question["skill_tag"]),
     )
     battle["mentor_text"] = get_mentor_hint(context)
-    append_history(f"Dica nivel {hint_level} solicitada em {question['skill_tag']}.")
+    append_history(format_hint_log(question, hint_level))
     st.rerun()
 
 
@@ -196,7 +231,7 @@ def answer_question(question: dict[str, Any], selected_option: str) -> None:
             )
         )
         battle["mentor_text"] = "Vetor: Questao encerrada. Agora leia a explicacao e avance."
-        append_history(f"Acerto em {question['id']}: {damage_done} de dano, {xp_gain} XP.")
+        append_history(format_accuracy_log(question, damage_done, xp_gain))
 
         if phase_won:
             score = max(0, battle["player_hp"]) + xp_gain
@@ -252,7 +287,7 @@ def answer_question(question: dict[str, Any], selected_option: str) -> None:
             correct_streak=0,
             wrong_streak=battle["wrong_streak"],
         )
-        append_history(f"Erro em {question['id']}: Molock causou {damage_taken} de dano.")
+        append_history(format_error_log(question, damage_taken))
 
         if battle["player_hp"] <= 0:
             battle_lost = True
@@ -445,6 +480,7 @@ def render_battle() -> None:
         selected = render_action_cards(
             options,
             selected,
+            selection_key=selection_key,
             key_prefix=f"battle_card_{question['id']}_{battle['question_wrong_attempts']}",
         )
         st.session_state[selection_key] = selected
@@ -533,3 +569,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

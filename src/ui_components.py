@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import html
+import base64
+from pathlib import Path
 from typing import Any
 
 import streamlit as st
@@ -16,9 +18,43 @@ def _pct(current: int, total: int) -> int:
     return max(0, min(100, round(current / total * 100)))
 
 
+SKILL_LABELS = {
+    "massa_para_mol": "conversão de massa para mol",
+    "mol_para_massa": "conversão de mol para massa",
+    "massa_molar": "massa molar",
+    "formula_molecular": "fórmula molecular",
+    "estequiometria": "proporção estequiométrica",
+    "proporcao_estequiometrica": "proporção estequiométrica",
+    "reagente_limitante": "reagente limitante",
+    "rendimento": "rendimento",
+    "rendimento_percentual": "rendimento percentual",
+    "mistura_mols": "mistura de mols",
+}
+
+
+def _skill_label(skill_tag: str | None) -> str:
+    if not skill_tag:
+        return "raciocínio químico"
+    return SKILL_LABELS.get(skill_tag, skill_tag.replace("_", " "))
+
+
+@st.cache_data(show_spinner=False)
+def _background_data_uri() -> str:
+    background_path = Path(__file__).resolve().parent.parent / "assets" / "apogeu-background.png"
+    if not background_path.exists():
+        return ""
+    encoded = base64.b64encode(background_path.read_bytes()).decode("ascii")
+    return f"data:image/png;base64,{encoded}"
+
+
 def inject_css() -> None:
-    st.markdown(
-        """
+    background = _background_data_uri()
+    background_layer = (
+        f'url("{background}")'
+        if background
+        else "linear-gradient(135deg, oklch(0.11 0.025 238) 0%, oklch(0.145 0.027 226) 54%, oklch(0.13 0.036 250) 100%)"
+    )
+    css = """
         <style>
         :root {
             --ap-bg: oklch(0.125 0.028 236);
@@ -41,12 +77,25 @@ def inject_css() -> None:
             --space-lg: 1.45rem;
             --space-xl: 2.1rem;
         }
-        .stApp {
+        .stApp,
+        div[data-testid="stAppViewContainer"] {
             background:
-                radial-gradient(circle at 14% 9%, oklch(0.72 0.15 202 / 0.16), transparent 25%),
-                radial-gradient(circle at 86% 16%, oklch(0.75 0.17 31 / 0.14), transparent 28%),
-                linear-gradient(135deg, oklch(0.11 0.025 238) 0%, oklch(0.145 0.027 226) 54%, oklch(0.13 0.036 250) 100%);
+                radial-gradient(circle at 14% 9%, oklch(0.72 0.15 202 / 0.18), transparent 25%),
+                radial-gradient(circle at 86% 16%, oklch(0.75 0.17 31 / 0.16), transparent 28%),
+                linear-gradient(90deg, oklch(0.055 0.02 235 / 0.74) 0%, oklch(0.085 0.024 228 / 0.56) 48%, oklch(0.065 0.018 245 / 0.72) 100%),
+                __APOGEU_BACKGROUND__ !important;
+            background-size: auto, auto, auto, cover;
+            background-position: center, center, center, center;
+            background-attachment: fixed, fixed, fixed, fixed;
+            background-repeat: no-repeat;
             color: var(--ap-text);
+        }
+        html, body {
+            background: var(--ap-bg) !important;
+        }
+        main[data-testid="stMain"],
+        section[data-testid="stSidebar"] {
+            background: transparent !important;
         }
         .stApp::before {
             content: "";
@@ -61,10 +110,27 @@ def inject_css() -> None:
         }
         .block-container {
             max-width: 1280px;
-            padding-top: 1rem;
+            padding-top: 1.25rem;
             padding-bottom: 2rem;
         }
-        div[data-testid="stHeader"] { background: transparent; }
+        #MainMenu,
+        header[data-testid="stHeader"],
+        .stApp > header,
+        div[data-testid="stAppViewContainer"] > header,
+        div[data-testid="stHeader"],
+        div[data-testid="stToolbar"],
+        div[data-testid="stDecoration"],
+        div[data-testid="stStatusWidget"],
+        div[data-testid="stMainMenu"],
+        button[aria-label="Main menu"],
+        button[aria-label="Menu"] {
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            height: 0 !important;
+            min-height: 0 !important;
+            display: none !important;
+        }
         h1, h2, h3 { letter-spacing: 0 !important; }
         h3 { margin-bottom: 0.55rem; }
         div.stButton > button {
@@ -323,25 +389,57 @@ def inject_css() -> None:
             letter-spacing: 0.07em;
         }
         .battle-arena {
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
             border: 1px solid oklch(0.54 0.085 212);
             border-radius: 8px;
-            padding: var(--space-md);
+            padding: var(--space-lg);
             background:
-                radial-gradient(circle at 82% 4%, oklch(0.67 0.18 31 / 0.14), transparent 30%),
-                linear-gradient(180deg, oklch(0.19 0.032 232 / 0.97), oklch(0.12 0.024 238 / 0.98));
-            box-shadow: 0 20px 62px var(--ap-shadow), inset 0 1px 0 oklch(0.92 0.04 210 / 0.06);
+                radial-gradient(circle at 82% 4%, oklch(0.67 0.18 31 / 0.24), transparent 30%),
+                linear-gradient(90deg, oklch(0.06 0.02 235 / 0.84), oklch(0.09 0.024 228 / 0.5) 46%, oklch(0.07 0.02 245 / 0.78)),
+                __APOGEU_BACKGROUND__;
+            background-size: auto, auto, cover;
+            background-position: center, center, center 54%;
+            box-shadow: 0 24px 72px var(--ap-shadow), inset 0 1px 0 oklch(0.92 0.04 210 / 0.08);
             margin-top: var(--space-md);
             margin-bottom: var(--space-md);
         }
+        .battle-arena::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(oklch(0.78 0.1 205 / 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, oklch(0.78 0.1 205 / 0.055) 1px, transparent 1px);
+            background-size: 44px 44px;
+            mix-blend-mode: screen;
+            opacity: 0.6;
+        }
+        .battle-arena::after {
+            content: "";
+            position: absolute;
+            inset: auto 0 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--ap-cyan), transparent 38%, var(--ap-amber), transparent 82%);
+            opacity: 0.95;
+        }
+        .battle-arena > * {
+            position: relative;
+            z-index: 1;
+        }
         .arena-title {
+            min-height: 132px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-end;
             gap: var(--space-md);
         }
         .arena-title h2 {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: clamp(1.45rem, 2.3vw, 2.25rem);
+            text-shadow: 0 4px 24px oklch(0.04 0.02 235 / 0.86);
         }
         .combat-question {
             padding: var(--space-lg);
@@ -360,6 +458,7 @@ def inject_css() -> None:
             margin: var(--space-md) 0;
         }
         .action-card {
+            position: relative;
             min-height: 130px;
             border: 1px solid oklch(0.43 0.065 216);
             border-radius: 8px;
@@ -375,6 +474,27 @@ def inject_css() -> None:
                 radial-gradient(circle at 88% 10%, oklch(0.78 0.16 202 / 0.22), transparent 34%),
                 linear-gradient(180deg, oklch(0.28 0.052 220 / 0.98), oklch(0.17 0.03 236 / 0.98));
             box-shadow: 0 0 0 1px oklch(0.8 0.12 202 / 0.16), 0 18px 42px var(--ap-shadow);
+        }
+        .action-card.selected::before {
+            content: "EQUIPADA";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: 1px solid oklch(0.82 0.16 202 / 0.9);
+            border-radius: 4px;
+            background: oklch(0.18 0.04 220 / 0.92);
+            color: var(--ap-cyan);
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            padding: 0.22rem 0.45rem;
+            box-shadow: 0 0 18px oklch(0.78 0.16 202 / 0.24);
+        }
+        .action-card.selected .action-id {
+            background: var(--ap-cyan);
+            color: oklch(0.12 0.025 238);
+            border-color: var(--ap-cyan);
+            box-shadow: 0 0 18px oklch(0.78 0.16 202 / 0.28);
         }
         .action-id {
             width: 34px;
@@ -601,7 +721,9 @@ def inject_css() -> None:
             div.stButton > button { transition: none; }
         }
         </style>
-        """,
+        """.replace("__APOGEU_BACKGROUND__", background_layer)
+    st.markdown(
+        css,
         unsafe_allow_html=True,
     )
 
@@ -818,14 +940,19 @@ def combat_question(question: dict[str, Any]) -> None:
         <div class="combat-question">
           <span class="phase-tag">Carta da questão | dificuldade {_escape(question["difficulty"])}</span>
           <h3>{_escape(question["stem"])}</h3>
-          <div class="small-muted">Tema: {_escape(question["topic"])} | Skill: {_escape(question["skill_tag"])}</div>
+          <div class="small-muted">Tema: {_escape(question["topic"])} | Alvo tático: {_escape(_skill_label(question.get("skill_tag")))}</div>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
 
-def render_action_cards(options: dict[str, str], selected_option: str | None, key_prefix: str) -> str | None:
+def render_action_cards(
+    options: dict[str, str],
+    selected_option: str | None,
+    selection_key: str,
+    key_prefix: str,
+) -> str | None:
     st.markdown('<div class="ap-label">CARTAS DE AÇÃO</div>', unsafe_allow_html=True)
     option_items = list(options.items())
     rows = [option_items[index : index + 2] for index in range(0, len(option_items), 2)]
@@ -843,12 +970,14 @@ def render_action_cards(options: dict[str, str], selected_option: str | None, ke
                     """,
                     unsafe_allow_html=True,
                 )
+                button_label = f"CARTA {option} EQUIPADA" if option == selected_option else f"EQUIPAR CARTA {option}"
                 if st.button(
-                    f"EQUIPAR CARTA {option}",
+                    button_label,
                     key=f"{key_prefix}_{row_index}_{option}",
                     use_container_width=True,
                 ):
-                    selected_option = option
+                    st.session_state[selection_key] = option
+                    st.rerun()
     return selected_option
 
 
@@ -1053,3 +1182,7 @@ def render_recent_attempts(attempts: list[dict[str, Any]]) -> None:
         """,
         unsafe_allow_html=True,
     )
+
+
+
+

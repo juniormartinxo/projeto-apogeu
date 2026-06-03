@@ -85,6 +85,66 @@ class GameFirstDesignTest(unittest.TestCase):
             with self.subTest(token=token):
                 self.assertIn(token, ui_source)
 
+    def test_equipped_action_card_persists_selection_and_rerenders_immediately(self):
+        app_source = Path("app.py").read_text(encoding="utf-8")
+        ui_source = Path("src/ui_components.py").read_text(encoding="utf-8")
 
+        required_ui_tokens = [
+            "selection_key: str",
+            "st.session_state[selection_key] = option",
+            "st.rerun()",
+            "CARTA {option} EQUIPADA",
+            ".action-card.selected::before",
+            'content: "EQUIPADA"',
+        ]
+        for token in required_ui_tokens:
+            with self.subTest(token=token):
+                self.assertIn(token, ui_source)
+
+        self.assertIn("selection_key=selection_key", app_source)
+
+    def test_streamlit_default_chrome_is_hidden_for_game_screen(self):
+        ui_source = Path("src/ui_components.py").read_text(encoding="utf-8")
+
+        required_tokens = [
+            "#MainMenu",
+            "header[data-testid=\"stHeader\"]",
+            ".stApp > header",
+            "div[data-testid=\"stAppViewContainer\"] > header",
+            "div[data-testid=\"stToolbar\"]",
+            "div[data-testid=\"stDecoration\"]",
+            "div[data-testid=\"stStatusWidget\"]",
+            "button[aria-label=\"Main menu\"]",
+            "visibility: hidden !important",
+            "height: 0 !important",
+            "display: none !important",
+            "padding-top: 1.25rem",
+        ]
+        for token in required_tokens:
+            with self.subTest(token=token):
+                self.assertIn(token, ui_source)
+
+
+    def test_game_background_uses_local_generated_asset(self):
+        ui_source = Path("src/ui_components.py").read_text(encoding="utf-8")
+        background_path = Path("assets/apogeu-background.png")
+
+        self.assertTrue(background_path.is_file())
+        self.assertGreater(background_path.stat().st_size, 1000)
+        for token in [
+            "apogeu-background.png",
+            "_background_data_uri",
+            "data:image/png;base64",
+            "__APOGEU_BACKGROUND__",
+            "background-size: auto, auto, auto, cover",
+            "main[data-testid=\"stMain\"]",
+            "min-height: 180px",
+            "background-position: center, center, center 54%",
+            ".battle-arena::before",
+        ]:
+            with self.subTest(token=token):
+                self.assertIn(token, ui_source)
 if __name__ == "__main__":
     unittest.main()
+
+
