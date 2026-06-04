@@ -24,6 +24,7 @@ $streamlitArgs = @(
     "--server.port", "$Port",
     "--server.enableCORS", "true",
     "--server.enableXsrfProtection", "true",
+    "--server.headless", "true",
     "--browser.gatherUsageStats", "false"
 )
 
