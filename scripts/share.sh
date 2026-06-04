@@ -56,6 +56,7 @@ nohup "${PYTHON}" -m streamlit run app.py \
   --server.port "${PORT}" \
   --server.enableCORS true \
   --server.enableXsrfProtection true \
+  --server.headless true \
   --browser.gatherUsageStats false \
   >/tmp/protocolo-apogeu-streamlit-"${PORT}".log 2>&1 &
 
