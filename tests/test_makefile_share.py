@@ -9,10 +9,21 @@ class MakeShareCommandTest(unittest.TestCase):
         content = makefile.read_text(encoding="utf-8")
 
         self.assertIn(".PHONY: share share-linux serve serve-linux stop-funnel", content)
+        self.assertIn("LINUX_PYTHON = .venv/bin/python", content)
+        self.assertIn("LINUX_STAMP = .venv/.linux-requirements-installed", content)
+        self.assertIn("$(LINUX_STAMP): requirements.txt", content)
+        self.assertIn("test -x $(LINUX_PYTHON) || $(SYSTEM_PYTHON) -m venv .venv", content)
+        self.assertIn("$(LINUX_PYTHON) -m pip install -r requirements.txt", content)
+        self.assertIn("touch $(LINUX_STAMP)", content)
         self.assertIn("share:", content)
+        self.assertIn("share-linux: $(LINUX_STAMP)", content)
         self.assertIn("scripts/share.ps1", content)
         self.assertIn("share-linux:", content)
         self.assertIn("bash scripts/share.sh", content)
+        self.assertIn("serve-linux: $(LINUX_STAMP)", content)
+        self.assertIn("$(LINUX_PYTHON) -m streamlit run app.py", content)
+        self.assertIn("--server.headless true", content)
+        self.assertIn("--browser.gatherUsageStats false", content)
         self.assertIn("stop-funnel:", content)
         self.assertIn("tailscale funnel --https=443 off", content)
 
@@ -32,6 +43,7 @@ class MakeShareCommandTest(unittest.TestCase):
             "8501",
             "--server.enableCORS",
             "--server.enableXsrfProtection",
+            "--server.headless",
             '"true"',
             "Port $Port is already in use",
             'tailscale funnel --bg "localhost:$Port"',
@@ -60,6 +72,7 @@ class MakeShareCommandTest(unittest.TestCase):
             "8501",
             "--server.enableCORS true",
             "--server.enableXsrfProtection true",
+            "--server.headless true",
             "Port ${PORT} is already in use",
             "tailscale funnel --bg",
             "localhost:${PORT}",
