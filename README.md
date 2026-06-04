@@ -4,6 +4,22 @@ MVP local de preparação para ITA/IME em Química Quantitativa. O jogo roda com
 
 ## Como rodar
 
+No Windows:
+
+```powershell
+make serve
+```
+
+No Linux/macOS:
+
+```bash
+make serve-linux
+```
+
+Esses comandos criam a `.venv` e instalam `requirements.txt` se o ambiente virtual ainda não existir.
+
+Setup manual equivalente:
+
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
@@ -51,7 +67,7 @@ Se `make` não estiver instalado no Linux:
 bash scripts/share.sh
 ```
 
-Em Linux/macOS:
+Setup manual em Linux/macOS:
 
 ```bash
 python -m venv .venv
